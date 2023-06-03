@@ -90,7 +90,9 @@ def calculate_labour_tax_credits(year, brackets):
 
 
 st.header("Income Tax Calculator - NL")
-st.write("Calculate your basic income tax in the Netherlands in the most simple yet descriptive way")
+st.write(
+    "Calculate your basic income tax in the Netherlands in the most simple yet descriptive way"
+)
 
 with open("data.json", "r") as f:
     data = json.load(f)
@@ -113,10 +115,10 @@ df_general_tax_credits = calculate_general_tax_credits(year, data["generalCredit
 df_labour_tax_credits = calculate_labour_tax_credits(year, data["labourCredit"])
 
 df_dict = {
-    "Payroll Tax": df_payroll_taxes,
-    "Social Security Tax": df_social_security_taxes,
-    "General Tax Credit": df_general_tax_credits,
-    "Labour Tax Credit": df_labour_tax_credits,
+    "Payroll Tax (Inkomstenbelasting)": df_payroll_taxes,
+    "Social Security Tax (Volksverzekeringen)": df_social_security_taxes,
+    "General Tax Credit (Algemene heffingskorting)": df_general_tax_credits,
+    "Labour Tax Credit (Arbeidskorting)": df_labour_tax_credits,
 }
 payroll_tax = int(
     np.interp([income], df_payroll_taxes.index, df_payroll_taxes.values)[0]
@@ -137,21 +139,21 @@ labour_tax_credit = int(
 st.subheader("Table")
 results = {
     "Income Before Tax": income,
-    "Payroll Tax": payroll_tax,
-    "Social Security Tax": social_security_tax,
-    "General Tax Credit": general_tax_credit,
-    "Labour Tax Credit": labour_tax_credit,
+    "Payroll Tax (Inkomstenbelasting)": payroll_tax,
+    "Social Security Tax (Volksverzekeringen)": social_security_tax,
+    "General Tax Credit (Algemene heffingskorting)": general_tax_credit,
+    "Labour Tax Credit (Arbeidskorting)": labour_tax_credit,
 }
 
 results["Income After Tax"] = (
     income
-    - results["Payroll Tax"]
-    - results["Social Security Tax"]
-    + results["General Tax Credit"]
-    + results["Labour Tax Credit"]
+    - results["Payroll Tax (Inkomstenbelasting)"]
+    - results["Social Security Tax (Volksverzekeringen)"]
+    + results["General Tax Credit (Algemene heffingskorting)"]
+    + results["Labour Tax Credit (Arbeidskorting)"]
 )
 
-cols = st.columns([0.2, 0.6, 0.2])
+cols = st.columns([0.1, 0.8, 0.1])
 series = pd.Series(results, name="Values")
 cols[1].dataframe(series, use_container_width=True)
 cols[1].markdown(
@@ -203,3 +205,4 @@ st.caption("**Disclamier:**")
 st.caption(
     "This calculator provides an estimated income tax calculation based on the information provided. It is for illustrative purposes only and does not guarantee accuracy. Consult a tax professional for precise calculations."
 )
+st.caption("Source: https://www.belastingdienst.nl/")
