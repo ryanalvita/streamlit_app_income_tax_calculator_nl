@@ -90,7 +90,7 @@ def calculate_labour_tax_credits(year, brackets):
 
 
 st.header("Income Tax Calculator - NL")
-st.write("Calculate your basic income tax in the Netherlands in a simple way")
+st.write("Calculate your basic income tax in the Netherlands in the most simple yet descriptive way")
 
 with open("data.json", "r") as f:
     data = json.load(f)
@@ -104,6 +104,7 @@ year = str(col2.selectbox("Tax Year", years, index=0))
 
 retire = st.checkbox("Retire next year")
 
+# Calculation
 df_payroll_taxes = calculate_payroll_taxes(year, data["payrollTax"])
 df_social_security_taxes = calculate_social_security_taxes(
     year, data["socialTax"], retire
@@ -132,7 +133,8 @@ labour_tax_credit = int(
     np.interp([income], df_labour_tax_credits.index, df_labour_tax_credits.values)[0]
 )
 
-
+# Table section
+st.subheader("Table")
 results = {
     "Income Before Tax": income,
     "Payroll Tax": payroll_tax,
@@ -149,7 +151,6 @@ results["Income After Tax"] = (
     + results["Labour Tax Credit"]
 )
 
-# Overview section
 cols = st.columns([0.2, 0.6, 0.2])
 series = pd.Series(results, name="Values")
 cols[1].dataframe(series, use_container_width=True)
@@ -159,12 +160,11 @@ cols[1].markdown(
 )
 
 # Graph section
+st.subheader("Graph")
 for key, values in df_dict.items():
-    if "Payroll Tax" in key:
-        st.subheader("Tax")
+    if not "Credit" in key:
         color = co.qualitative.Plotly[0]
-    elif "General Tax Credit" in key:
-        st.subheader("Tax Credit")
+    else:
         color = co.qualitative.Plotly[2]
 
     df = values
@@ -199,7 +199,7 @@ for key, values in df_dict.items():
     fig.update_yaxes(tickformat="~")
     st.plotly_chart(fig, use_container_width=True)
 
-st.write("**Disclamier:**")
-st.write(
+st.caption("**Disclamier:**")
+st.caption(
     "This calculator provides an estimated income tax calculation based on the information provided. It is for illustrative purposes only and does not guarantee accuracy. Consult a tax professional for precise calculations."
 )
