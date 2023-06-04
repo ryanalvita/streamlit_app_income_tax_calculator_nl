@@ -89,7 +89,7 @@ def calculate_labour_tax_credits(year, brackets):
     return clean_df(pd.Series(results))
 
 
-st.header("Income Tax Calculator - NL")
+st.header("Income Tax Calculator NL")
 st.write(
     "Calculate your basic income tax in the Netherlands in the most simple yet descriptive way"
 )
