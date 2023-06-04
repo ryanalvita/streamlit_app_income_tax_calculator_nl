@@ -203,6 +203,6 @@ for key, values in df_dict.items():
 
 st.caption("**Disclamier:**")
 st.caption(
-    "This calculator provides an estimated income tax calculation based on the information provided. It is for illustrative purposes only and does not guarantee accuracy. Consult a tax professional for precise calculations."
+    "This calculator provides an estimated income tax calculation based on the information provided. It is only for basic tax calculation and illustrative purposes and does not guarantee accuracy. Consult a tax professional for precise calculations."
 )
 st.caption("Source: https://www.belastingdienst.nl/")
