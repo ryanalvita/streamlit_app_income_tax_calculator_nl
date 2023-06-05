@@ -194,10 +194,11 @@ for key, values in df_dict.items():
     )
     fig.update_layout(
         title=f"{key}",
-        legend={
-            "orientation": "h",
-        },
+        legend={"orientation": "h", "y": -0.2},
+        xaxis_title="Yearly Income",
+        yaxis_title=f"{key}",
     )
+    fig.update_xaxes(tickformat="~")
     fig.update_yaxes(tickformat="~")
     st.plotly_chart(fig, use_container_width=True)
 
